@@ -1,0 +1,53 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+          10.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore AmazonCreators.Net.sln
+
+    - name: Build solution (Release)
+      run: dotnet build AmazonCreators.Net.sln -c Release --no-restore
+
+    - name: Run Tests
+      run: dotnet test AmazonCreators.Net.sln -c Release --no-build
+
+    - name: Pack NuGet Packages
+      run: |
+        dotnet pack src/AmazonCreators.Net/AmazonCreators.Net.csproj -c Release -o ./artifacts
+        dotnet pack src/AmazonCreators.Mcp/AmazonCreators.Mcp.csproj -c Release -o ./artifacts
+
+    - name: Upload NuGet Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/
+
+    - name: Publish to NuGet.org
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: |
+        if [ -z "$NUGET_API_KEY" ]; then
+          echo "::warning::NUGET_API_KEY secret is not set in GitHub Repository Secrets. Skipping push to NuGet.org. Packages are available in workflow artifacts."
+        else
+          dotnet nuget push ./artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        fi

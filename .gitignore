@@ -1,0 +1,43 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider & VS Code
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.DotSettings.user
+
+## Test Results
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+*.cobertura.xml
+
+## Local Environment / Secrets
+appsettings.local.json
+appsettings.Development.json
+*.env
+.env*
+!.env.example

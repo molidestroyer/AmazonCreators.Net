@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/AmazonCreators.SampleConsole/AmazonCreators.SampleConsole.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AmazonCreators.Mcp/AmazonCreators.Mcp.csproj" />
+    <Project Path="src/AmazonCreators.Net/AmazonCreators.Net.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AmazonCreators.Net.Tests/AmazonCreators.Net.Tests.csproj" />
+  </Folder>
+</Solution>
